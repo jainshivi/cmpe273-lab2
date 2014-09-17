@@ -41,7 +41,14 @@ Login.prototype.login = function(_name, _email) {
  * Logout from the server
  */ 
 Login.prototype.logout = function(sessionId) {
-	console.log('logout::' + sessionId);
+
+	//var sessionid = this.sessionMap.Remove(sessionId);
+	console.log('inside logout');
+	debugger;
+	var session = delete this.sessionMap[sessionId];
+	console.log(session);
+	//var session = sessionId in this.sessionMap;
+
    /*
 	* TODO: Remove the given sessionId from the sessionMap
 	*/
