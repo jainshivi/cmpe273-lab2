@@ -57,18 +57,27 @@ function del(request, response) {
  	console.log(request.cookies.session_id);
  	var logout;
  	if(login.isLoggedIn(request.cookies.session_id))
- 		logout = login.logout(request.session_id);
+ 		logout = login.logout(request.cookies.session_id);
  	console.log(logout);
   	response.end('Logged out from the server\n');
 };
 
 function put(request, response) {
+	response.setHeader('Content-Type', 'text/html');
 	console.log("PUT:: Re-generate new seesion_id for the same user");
 	// TODO: refresh session id; similar to the post() function
 	var name = request.body.name;
 	var email = request.body.email;
-	var newSessionId = login.login(name,email);
-	response.end("Re-freshed session id\n");
+	var sessionId = request.cookies.session_id;
+	if(login.isLoggedIn(request.cookies.session_id))
+	{
+		var newSessionId = login.sessionrefresh(sessionId);
+		response.end("Re-freshed session id\n");
+	}
+	else
+		response.end("Invalid session id\n");
+
+	
 };
 
 app.listen(8000);
